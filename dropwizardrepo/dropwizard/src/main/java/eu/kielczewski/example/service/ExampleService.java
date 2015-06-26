@@ -1,4 +1,4 @@
-package eu.kielczewski.example;
+package eu.kielczewski.example.service;
 
 import org.skife.jdbi.v2.DBI;
 
