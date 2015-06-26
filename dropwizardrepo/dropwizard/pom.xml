@@ -30,6 +30,7 @@
 	</dependency>
 </dependencies>
 
+<!-- Add Repository for Oracle jar -->
 <repositories>
     <repository>
       <id>codelds</id>
