@@ -28,6 +28,11 @@
 		<artifactId>ojdbc14</artifactId>
 		<version>10.2.0.3</version>
 	</dependency>
+	<dependency>
+		<groupId>com.yammer.dropwizard</groupId>
+		<artifactId>dropwizard-auth</artifactId>
+		<version>0.6.2</version>
+	</dependency>
 </dependencies>
 
 <!-- Add Repository for Oracle jar -->
@@ -53,7 +58,7 @@
 		    <artifactId>exec-maven-plugin</artifactId>
 		    <version>1.2.1</version>
 		    <configuration>
-		        <mainClass>eu.kielczewski.example.ExampleService</mainClass>
+		        <mainClass>eu.kielczewski.example.service.ExampleService</mainClass>
 		        <arguments>
 		            <argument>server</argument>
 		            <argument>configuration.yml</argument>

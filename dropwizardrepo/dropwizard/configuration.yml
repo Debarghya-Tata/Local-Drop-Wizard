@@ -19,3 +19,7 @@ database:
   checkConnectionWhileIdle: false
   checkConnectionHealthWhenIdleFor: 10s
   closeConnectionIfIdleFor: 1 minute
+  
+loginConfiguration:
+ login: username
+ password: password

@@ -1,9 +1,12 @@
 package eu.kielczewski.example.hello;
 
 import eu.kielczewski.example.config.MessagesConfiguration;
+import eu.kielczewski.example.core.User;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+
+import com.yammer.dropwizard.auth.Auth;
 
 @Path(value = "/hello")
 public class HelloResource {
@@ -15,7 +18,7 @@ public class HelloResource {
     }
 
     @GET
-    public String sayHello() {
+    public String sayHello(@Auth User user) {
         return conf.getHello();
     }
 

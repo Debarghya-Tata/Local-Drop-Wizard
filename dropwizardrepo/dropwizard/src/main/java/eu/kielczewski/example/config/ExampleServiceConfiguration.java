@@ -28,4 +28,23 @@ public class ExampleServiceConfiguration extends Configuration {
     public DatabaseConfiguration getDatabaseConfiguration() {
         return database;
     }
+    
+    private LoginConfiguration loginConfiguration;
+
+	public DatabaseConfiguration getDatabase() {
+		return database;
+	}
+
+	public void setDatabase(DatabaseConfiguration database) {
+		this.database = database;
+	}
+
+	public void setLoginConfiguration(LoginConfiguration loginConfiguration) {
+		this.loginConfiguration = loginConfiguration;
+	}
+
+	public LoginConfiguration getLoginConfiguration() {
+		// TODO Auto-generated method stub
+		return loginConfiguration;
+	}
 }

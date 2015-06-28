@@ -3,11 +3,14 @@ package eu.kielczewski.example.service;
 import org.skife.jdbi.v2.DBI;
 
 import com.yammer.dropwizard.Service;
+import com.yammer.dropwizard.auth.basic.BasicAuthProvider;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.jdbi.DBIFactory;
 
+import eu.kielczewski.example.auth.GreetingAuthenticator;
 import eu.kielczewski.example.config.ExampleServiceConfiguration;
+import eu.kielczewski.example.core.User;
 import eu.kielczewski.example.dao.PackageItemDAO;
 import eu.kielczewski.example.hello.HelloResource;
 import eu.kielczewski.example.hello.PackageItemResource;
@@ -34,6 +37,7 @@ public class ExampleService extends Service<ExampleServiceConfiguration> {
 
         //env.jersey().register(packageItemResource);
         env.addResource(packageItemResource);
+        env.addProvider(new BasicAuthProvider<User>(new GreetingAuthenticator(conf.getLoginConfiguration().getLogin(),conf.getLoginConfiguration().getPassword()),"SECURITY REALM"));
     }
 
 }
