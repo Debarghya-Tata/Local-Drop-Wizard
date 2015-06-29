@@ -2,8 +2,11 @@ package eu.kielczewski.example.service;
 
 import org.skife.jdbi.v2.DBI;
 
+import com.google.common.cache.CacheBuilderSpec;
 import com.yammer.dropwizard.Service;
+import com.yammer.dropwizard.auth.CachingAuthenticator;
 import com.yammer.dropwizard.auth.basic.BasicAuthProvider;
+import com.yammer.dropwizard.auth.basic.BasicCredentials;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 import com.yammer.dropwizard.jdbi.DBIFactory;
@@ -31,13 +34,21 @@ public class ExampleService extends Service<ExampleServiceConfiguration> {
     	env.addResource(new HelloResource(conf.getMessages()));
     	final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(env, conf.getDatabaseConfiguration(), "oracle");
-     
+        
         final PackageItemDAO packageItemDAO = jdbi.onDemand(PackageItemDAO.class);
         final PackageItemResource packageItemResource = new PackageItemResource(packageItemDAO);
+        
 
-        //env.jersey().register(packageItemResource);
+        GreetingAuthenticator greetingAuthenticator = new GreetingAuthenticator(conf.getLoginConfiguration().getLogin(),conf.getLoginConfiguration().getPassword());
+        
+        CachingAuthenticator<BasicCredentials, User> cachingAuthenticator = CachingAuthenticator
+        		  .wrap(greetingAuthenticator, CacheBuilderSpec.parse("maximumSize=10000, expireAfterAccess=0m"));
+        
         env.addResource(packageItemResource);
-        env.addProvider(new BasicAuthProvider<User>(new GreetingAuthenticator(conf.getLoginConfiguration().getLogin(),conf.getLoginConfiguration().getPassword()),"SECURITY REALM"));
+        //env.addProvider(new BasicAuthProvider<User>(new GreetingAuthenticator(conf.getLoginConfiguration().getLogin(),conf.getLoginConfiguration().getPassword()),"SECURITY REALM"));
+        
+		env.addProvider(new BasicAuthProvider<User>(cachingAuthenticator,"SECURITY REALM"));
+        
     }
 
 }
